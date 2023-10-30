@@ -1,32 +1,57 @@
-import React from 'react';
-
-import styles from './Search.module.scss';
-import imgSearch from './imgs/search.png';
-import imgCross from './imgs/cross.png';
-import { AppContext } from '../../App';
+import React, { useCallback, useState } from "react";
+import debounce from "lodash.debounce";
+import styles from "./Search.module.scss";
+import imgSearch from "./imgs/search.png";
+import imgCross from "./imgs/cross.png";
+import { AppContext } from "../../App";
 
 const Search = () => {
-  const { searchValue, setSearchValue } = React.useContext(AppContext);
-  return (
-    <div className={styles.root}>
-      <img className={styles.iconSearch} src={imgSearch} alt="" />
-      <input
-        value={searchValue}
-        onChange={(event) => setSearchValue(event.target.value)}
-        className={styles.input}
-        type="text"
-        placeholder="Поиск пиццы..."
-      />
-      {searchValue && (
-        <img
-          onClick={() => setSearchValue('')}
-          className={styles.iconCross}
-          src={imgCross}
-          alt=""
-        />
-      )}
-    </div>
-  );
+	const [value, setValue] = useState("");
+	const { searchValue, setSearchValue } = React.useContext(AppContext);
+
+	const inputRef = React.useRef();
+
+	const onClickClear = () => {
+		setSearchValue("");
+		setValue("");
+		inputRef.current.focus();
+	};
+
+	const updateSearchValue = useCallback(
+		debounce(str => {
+			console.log(str);
+			setSearchValue(str);
+		}, 250),
+		[]
+	);
+
+	const onChangeInput = event => {
+		console.log(event);
+		setValue(event.target.value);
+		updateSearchValue(event.target.value);
+	};
+
+	return (
+		<div className={styles.root}>
+			<img className={styles.iconSearch} src={imgSearch} alt="" />
+			<input
+				ref={inputRef}
+				value={value}
+				onChange={onChangeInput}
+				className={styles.input}
+				type="text"
+				placeholder="Поиск пиццы..."
+			/>
+			{value && (
+				<img
+					onClick={() => onClickClear()}
+					className={styles.iconCross}
+					src={imgCross}
+					alt=""
+				/>
+			)}
+		</div>
+	);
 };
 
 export default Search;
