@@ -6,6 +6,9 @@ import { useSelector } from "react-redux";
 
 function Header() {
 	const { items, totalPrice } = useSelector(state => state.cartSlice);
+	const cartItem = useSelector(state => state.cartSlice.items.count);
+
+	const addCount = cartItem ? cartItem.count : 0;
 
 	return (
 		<div className="header">

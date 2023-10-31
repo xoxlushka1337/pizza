@@ -18,7 +18,6 @@ const Home = () => {
 	const { searchValue } = React.useContext(AppContext);
 	const [items, setItems] = React.useState([]);
 	const [isLoad, setIsLoad] = React.useState(true);
-	// const [currentPage, setCurrentPage] = React.useState(1);
 
 	const onChangeCategory = id => {
 		dispatch(setCategoryId(id));
