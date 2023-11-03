@@ -4,7 +4,6 @@ import Categories from "../components/Categories";
 import Sort from "../components/Sort";
 import PizzaBlock from "../components/PizzaBlock";
 import Skeleton from "../components/PizzaBlock/Skeleton";
-import { AppContext } from "../App";
 import { useDispatch, useSelector } from "react-redux";
 import { setCategoryId, setPageCount } from "../redux/slices/filterSlice";
 import { fetchPizzas } from "../redux/slices/pizzasSlice";
@@ -14,9 +13,10 @@ const Home = () => {
 	const categoryId = useSelector(state => state.filterSlice.categoryId);
 	const sortType = useSelector(state => state.filterSlice.sort.sortProperty);
 	const pageCount = useSelector(state => state.filterSlice.pageCount);
+	const searchValue = useSelector(state => state.filterSlice.searchValue);
 	const { items, status } = useSelector(state => state.pizzasSlice);
 
-	const { searchValue } = React.useContext(AppContext);
+	// const { searchValue } = React.useContext(AppContext);
 
 	const onChangeCategory = id => {
 		dispatch(setCategoryId(id));
